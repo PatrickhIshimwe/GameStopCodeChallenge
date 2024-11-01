@@ -21,11 +21,11 @@ export default class ProductListPage extends React.Component<any> {
         const filteredProducts = products.filter(product =>
             product.name.toLowerCase().includes(searchedProduct.toLowerCase())
         )
-        this.setState({ searchedProduct, filteredProducts })
+        this.setState({searchedProduct, filteredProducts})
     }
 
     render() {
-        const { searchedProduct, filteredProducts } = this.state
+        const {searchedProduct, filteredProducts} = this.state
 
         return (
             <View style={styles.view}>
@@ -39,15 +39,15 @@ export default class ProductListPage extends React.Component<any> {
                     <FlatList
                         data={filteredProducts}
                         keyExtractor={item => item.id}
-                        renderItem={({ item }) => (
+                        renderItem={({item}) => (
                             <TouchableOpacity
                                 style={styles.button}
                                 onPress={() =>
-                                    this.props.navigation.navigate('ProductDetail', { product: item })
+                                    this.props.navigation.navigate('ProductDetail', {product: item})
                                 }
                             >
                                 <Text style={styles.text}>{item.name}</Text>
-                                <Image style={styles.image} source={{ uri: item.image }} />
+                                <Image style={styles.image} source={{uri: item.image}} />
                                 <TouchableOpacity style={styles.button} onPress={() => {}}>
                                     <Text>Add to Cart</Text>
                                 </TouchableOpacity>
