@@ -1,5 +1,5 @@
-import React from "react";
-import {Dimensions, FlatList, StyleSheet, TextInput, TouchableOpacity, View, Text, Image} from "react-native";
+import React from "react"
+import {Dimensions, FlatList, StyleSheet, TextInput, TouchableOpacity, View, Text, Image} from "react-native"
 import products from '../data/products.json'
 
 export type Product = {
@@ -12,27 +12,20 @@ export type Product = {
 }
 
 export default class ProductListPage extends React.Component<any> {
-
     state = {
         searchedProduct: '',
-        filteredProducts: []
+        filteredProducts: products
     }
 
     handleSearchedProduct = (searchedProduct: string) => {
-        const filteredProducts = products.filter((product) =>
+        const filteredProducts = products.filter(product =>
             product.name.toLowerCase().includes(searchedProduct.toLowerCase())
         )
-        this.setState({ searchedProduct, filteredProducts})
-    }
-
-    filteredProducts = () : Product[] => {
-        const {searchedProduct} = this.state
-        return products.filter(product =>
-            product.name.toLowerCase().includes(searchedProduct.toLowerCase()))
+        this.setState({ searchedProduct, filteredProducts })
     }
 
     render() {
-        const {searchedProduct} = this.state
+        const { searchedProduct, filteredProducts } = this.state
 
         return (
             <View style={styles.view}>
@@ -42,27 +35,31 @@ export default class ProductListPage extends React.Component<any> {
                     value={searchedProduct}
                     onChangeText={this.handleSearchedProduct}
                 />
-                { searchedProduct.length > 0 && (
-                    <FlatList data={this.filteredProducts()}
-                              keyExtractor={item => item.id}
-                              renderItem={({item}) => (
-                                  <TouchableOpacity style={styles.button} onPress={() =>
-                                      this.props.navigation.navigate('ProductDetail', {product: item}
-                                      )}
-                                  >
-                                      <Text style={styles.text}>{item.name}</Text>
-                                      <Image style={styles.image} source={{uri: item.image}} />
-                                      <TouchableOpacity style={styles.button} onPress={() => {}} >
-                                          <Text>Add to Cart</Text>
-                                      </TouchableOpacity>
-                                  </TouchableOpacity>
-                              )}
+                {searchedProduct.length > 0 && (
+                    <FlatList
+                        data={filteredProducts}
+                        keyExtractor={item => item.id}
+                        renderItem={({ item }) => (
+                            <TouchableOpacity
+                                style={styles.button}
+                                onPress={() =>
+                                    this.props.navigation.navigate('ProductDetail', { product: item })
+                                }
+                            >
+                                <Text style={styles.text}>{item.name}</Text>
+                                <Image style={styles.image} source={{ uri: item.image }} />
+                                <TouchableOpacity style={styles.button} onPress={() => {}}>
+                                    <Text>Add to Cart</Text>
+                                </TouchableOpacity>
+                            </TouchableOpacity>
+                        )}
                     />
                 )}
             </View>
         )
     }
 }
+
 const { height, width } = Dimensions.get('window')
 const styles = StyleSheet.create({
     view: {
